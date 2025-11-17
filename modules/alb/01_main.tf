@@ -20,9 +20,7 @@ resource "aws_lb" "public" {
   load_balancer_type = "application"
   security_groups    = [var.alb_sg_id]
   subnets            = [for subnet_id in var.subent_public_ids : subnet_id]
-
-
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 
     #   access_logs {
     #     bucket  = aws_s3_bucket.lb_logs.id
