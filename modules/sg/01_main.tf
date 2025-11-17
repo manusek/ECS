@@ -1,4 +1,4 @@
-resource "aws_security_group" "example" {
+resource "aws_security_group" "alb_sg" {
   name        = "${var.project_name}-sg"
   vpc_id      = var.vpc_id 
 
@@ -15,4 +15,10 @@ resource "aws_security_group" "example" {
 #     protocol        = "-1"
 #     prefix_list_ids = [aws_vpc_endpoint.my_endpoint.prefix_list_id]
 #   }
+
+    tags = {
+        Name    = "${var.project_name}-sg"
+        Project = var.project_name
+        Owner   = var.owner
+    }
 }
