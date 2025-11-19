@@ -18,6 +18,11 @@ variable "owner" {
   default     = "kdlugosz"
 }
 
+
+###########
+# Network
+###########
+
 variable "default_cidr" {
   description = "The default CIDR block for the network"
   type        = string
@@ -30,6 +35,7 @@ variable "vpc_cidr" {
   default     = "192.168.0.0/16"
 }
 
+# Subnets
 variable "subnet_cidr1" {
   description = "The CIDR block for the subnets"
   type        = string
@@ -54,6 +60,7 @@ variable "subnet_cidr4" {
   default     = "192.168.13.0/24"
 }
 
+# Availability Zones
 variable "az1" {
   description = "The first availability zone"
   type        = string
@@ -67,3 +74,18 @@ variable "az2" {
   default     = "eu-central-1b"
 }
 
+# Launch Type
+variable "launch_type" {
+  description = "The launch type for the ECS service"
+  type = object({
+    type   = string
+    cpu    = string
+    memory = string
+  })
+
+  default = {
+    type   = "FARGATE"
+    cpu    = "256"
+    memory = "512"
+  }
+}

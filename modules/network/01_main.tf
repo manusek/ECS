@@ -17,9 +17,10 @@ resource "aws_vpc" "main" {
 # Subnets
 ################
 
+# Public Subnets
 resource "aws_subnet" "public1" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = var.subnet_cidr1
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.subnet_cidr1
   availability_zone = var.az1
 
   tags = {
@@ -30,8 +31,8 @@ resource "aws_subnet" "public1" {
 }
 
 resource "aws_subnet" "public2" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = var.subnet_cidr2
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.subnet_cidr2
   availability_zone = var.az2
 
   tags = {
@@ -41,9 +42,10 @@ resource "aws_subnet" "public2" {
   }
 }
 
+# Private Subnets
 resource "aws_subnet" "private1" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = var.subnet_cidr3
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.subnet_cidr3
   availability_zone = var.az1
 
   tags = {
@@ -54,8 +56,8 @@ resource "aws_subnet" "private1" {
 }
 
 resource "aws_subnet" "private2" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = var.subnet_cidr4
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.subnet_cidr4
   availability_zone = var.az2
 
   tags = {
@@ -87,26 +89,26 @@ resource "aws_internet_gateway" "igw" {
 
 #EIP 1
 resource "aws_eip" "nat1" {
-  domain = "vpc"
-  depends_on = [ aws_internet_gateway.igw ]
+  domain     = "vpc"
+  depends_on = [aws_internet_gateway.igw]
 
-    tags = {
-        Name    = "${var.project_name}-nat-eip1"
-        Project = var.project_name
-        Owner   = var.owner
-    }
+  tags = {
+    Name    = "${var.project_name}-nat-eip1"
+    Project = var.project_name
+    Owner   = var.owner
+  }
 }
 
 #EIP 2
 resource "aws_eip" "nat2" {
-  domain = "vpc"
-  depends_on = [ aws_internet_gateway.igw ]
+  domain     = "vpc"
+  depends_on = [aws_internet_gateway.igw]
 
-    tags = {
-        Name    = "${var.project_name}-nat-eip2"
-        Project = var.project_name
-        Owner   = var.owner
-    }
+  tags = {
+    Name    = "${var.project_name}-nat-eip2"
+    Project = var.project_name
+    Owner   = var.owner
+  }
 }
 
 #NAT Gateway 1
@@ -120,8 +122,6 @@ resource "aws_nat_gateway" "ngw1" {
     Owner   = var.owner
   }
 
-  # To ensure proper ordering, it is recommended to add an explicit dependency
-  # on the Internet Gateway for the VPC.
   depends_on = [aws_internet_gateway.igw]
 }
 
@@ -136,8 +136,6 @@ resource "aws_nat_gateway" "ngw2" {
     Owner   = var.owner
   }
 
-  # To ensure proper ordering, it is recommended to add an explicit dependency
-  # on the Internet Gateway for the VPC.
   depends_on = [aws_internet_gateway.igw]
 }
 
@@ -146,6 +144,7 @@ resource "aws_nat_gateway" "ngw2" {
 # Route Tables
 ################    
 
+# Public Route Table
 resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.main.id
 
@@ -161,7 +160,7 @@ resource "aws_route_table" "public_rt" {
   }
 }
 
-#PRIVATE ROUTE TABLE 1
+# Private Route Tables
 resource "aws_route_table" "private_rt1" {
   vpc_id = aws_vpc.main.id
 
@@ -177,7 +176,6 @@ resource "aws_route_table" "private_rt1" {
   }
 }
 
-#PRIVATE ROUTE TABLE 2
 resource "aws_route_table" "private_rt2" {
   vpc_id = aws_vpc.main.id
 
@@ -198,7 +196,7 @@ resource "aws_route_table" "private_rt2" {
 # Route Table Associations            
 ################
 
-#PUBLIC SUBNETS
+# Public subnets assoc
 resource "aws_route_table_association" "public1_assoc" {
   subnet_id      = aws_subnet.public1.id
   route_table_id = aws_route_table.public_rt.id
@@ -209,13 +207,13 @@ resource "aws_route_table_association" "public2_assoc" {
   route_table_id = aws_route_table.public_rt.id
 }
 
-#PRIVATE SUBNETS
+# Private subnets assoc
 resource "aws_route_table_association" "private1_assoc" {
   subnet_id      = aws_subnet.private1.id
   route_table_id = aws_route_table.private_rt1.id
 }
 
 resource "aws_route_table_association" "private2_assoc" {
-    subnet_id      = aws_subnet.private2.id
-    route_table_id = aws_route_table.private_rt2.id
+  subnet_id      = aws_subnet.private2.id
+  route_table_id = aws_route_table.private_rt2.id
 }

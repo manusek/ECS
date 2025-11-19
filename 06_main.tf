@@ -1,3 +1,4 @@
+# Network 
 module "network" {
   source = "./modules/network"
 
@@ -15,6 +16,7 @@ module "network" {
   az2 = var.az2
 }
 
+# ECR
 module "ecr" {
   source = "./modules/ecr"
 
@@ -22,6 +24,7 @@ module "ecr" {
   owner        = var.owner
 }
 
+# Security Groups
 module "sg" {
   source = "./modules/sg"
 
@@ -32,12 +35,39 @@ module "sg" {
   default_cidr = var.default_cidr
 }
 
+# Application Load Balancer
 module "alb" {
   source = "./modules/alb"
 
-  project_name      = var.project_name
-  owner             = var.owner
+  project_name = var.project_name
+  owner        = var.owner
+
   vpc_id            = module.network.vpc_id
-  alb_sg_id         = module.sg.alb_sg_id
   subent_public_ids = module.network.subnet_public_ids
+  alb_sg_id         = module.sg.alb_sg_id
+}
+
+# IAM Roles
+module "roles" {
+  source = "./modules/roles"
+
+  project_name = var.project_name
+  owner        = var.owner
+}
+
+# ECS
+module "ecs" {
+  source = "./modules/ecs"
+
+  project_name = var.project_name
+  owner        = var.owner
+
+  tg_arn             = module.alb.tg_arn
+  execution_role_arn = module.roles.execution_role_arn
+  execution_role_id  = module.roles.execution_role_id
+
+  region             = var.aws_region
+  subnet_private_ids = module.network.subnet_private_ids
+  ecs_sg_id          = module.sg.ecs_sg_id
+  launch_type        = var.launch_type
 }
