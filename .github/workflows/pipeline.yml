@@ -63,7 +63,7 @@ jobs:
 
       # build docker image
       - name: Build Docker Image
-        run: docker build -t app ./PycharmProjects/PythonProject/
+        run: docker build -t app ./app/PythonProject
       # ECR login
       - name: Login to ECR
         run: |

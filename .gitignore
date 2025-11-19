@@ -35,3 +35,44 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+# Python
+
+# Wirtualne środowiska (ignorujemy foldery venv/env/etc, nazwij swój folder odpowiednio)
+venv/
+.venv/
+env/
+.env/
+
+# Skompilowane pliki Pythona (bytecode)
+__pycache__/
+*.pyc
+*.pyo
+
+# Pliki tymczasowe generowane przez narzędzia testowe
+.pytest_cache/
+.nox/
+.tox/
+
+# Pliki generowane przez aplikacje IDE (np. PyCharm, VS Code, Sublime)
+.idea/
+.vscode/
+
+# Pliki konfiguracyjne specyficzne dla środowiska lokalnego (potencjalnie poufne)
+# Jeśli używasz plików .env do przechowywania zmiennych środowiskowych, pamiętaj o ich zignorowaniu
+.env
+*.env.local
+
+# Pliki pakietów i instalacji
+*.egg-info/
+dist/
+build/
+
+# Pliki dziennika (logi)
+*.log
+
+# Pliki danych specyficzne dla systemu operacyjnego (np. macOS)
+.DS_Store
+
+# Pliki generowane przez narzędzia Jupyter/IPython (jeśli dotyczy)
+.ipynb_checkpoints

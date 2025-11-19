@@ -1,0 +1,42 @@
+# --- Ignoruj pliki i foldery specyficzne dla Pythona ---
+# Katalog, w którym przechowywane są skompilowane pliki Pythona (.pyc, .pyo, itp.)
+__pycache__
+
+# Pliki skompilowane przez Pythona
+*.pyc
+*.pyo
+
+# Pliki tymczasowe generowane przez narzędzia testowe (np. pytest)
+.pytest_cache
+.nox
+.tox
+
+# Wirtualne środowiska (nie chcemy ich w obrazie, zainstalujemy zależności w obrazie od nowa)
+.venv
+venv
+env
+
+# Pliki danych generowane przez Pythona w trakcie działania
+*.egg-info
+.coverage
+
+# --- Ignoruj pliki i foldery ogólne/systemowe ---
+# System kontroli wersji Git
+.git
+.gitignore
+
+# Pliki tymczasowe i pamięci podręcznej
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Pliki specyficzne dla systemu operacyjnego (np. macOS)
+.DS_Store
+
+# Pliki konfiguracyjne specyficzne dla środowiska lokalnego dewelopera (potencjalnie poufne)
+.env
+.flaskenv
+
+# Logi
+*.log
