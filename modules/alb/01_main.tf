@@ -1,4 +1,6 @@
-# LISTENER
+###########
+# Listener
+###########
 
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.public.arn
@@ -12,21 +14,17 @@ resource "aws_lb_listener" "http" {
 }
 
 
-# APPLICATION LOAD BALANCER
+################
+# Load Balancer
+################
 
 resource "aws_lb" "public" {
-  name               = "${var.project_name}-alb"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [var.alb_sg_id]
-  subnets            = [for subnet_id in var.subent_public_ids : subnet_id]
+  name                       = "${var.project_name}-alb"
+  internal                   = false
+  load_balancer_type         = "application"
+  security_groups            = [var.alb_sg_id]
+  subnets                    = [for subnet_id in var.subent_public_ids : subnet_id]
   enable_deletion_protection = false
-
-    #   access_logs {
-    #     bucket  = aws_s3_bucket.lb_logs.id
-    #     prefix  = "test-lb"
-    #     enabled = true
-    #   }
 
   tags = {
     Name    = "${var.project_name}-ecr"
@@ -36,11 +34,13 @@ resource "aws_lb" "public" {
 }
 
 
-# TARGET GROUP
+##############
+# Target Group
+##############
 
 resource "aws_lb_target_group" "alb_tg" {
   name        = "${var.project_name}-alb-tg"
-  target_type = "ip"      
+  target_type = "ip"
   port        = 8080
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
@@ -53,5 +53,9 @@ resource "aws_lb_target_group" "alb_tg" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
   }
+  tags = {
+    Name    = "${var.project_name}-tg"
+    Project = var.project_name
+    Owner   = var.owner
+  }
 }
-

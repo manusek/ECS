@@ -9,8 +9,8 @@ variable "owner" {
 }
 
 variable "vpc_id" {
-    description = "The ID of the VPC"
-    type        = string
+  description = "The ID of the VPC"
+  type        = string
 }
 
 variable "alb_sg_id" {
@@ -19,6 +19,6 @@ variable "alb_sg_id" {
 }
 
 variable "subent_public_ids" {
-    description = "The public subnet IDs for the ALB"
-    type        = list(string)
+  description = "The public subnet IDs for the ALB"
+  type        = list(string)
 }
