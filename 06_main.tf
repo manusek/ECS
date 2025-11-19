@@ -71,3 +71,14 @@ module "ecs" {
   ecs_sg_id          = module.sg.ecs_sg_id
   launch_type        = var.launch_type
 }
+
+# Auto Scaling
+module "auto_scaling" {
+  source = "./modules/auto-scaling"
+
+  project_name = var.project_name
+  owner        = var.owner
+
+  ecs_cluster_name = module.ecs.ecs_cluster_name
+  ecs_service_name = module.ecs.ecs_service_name
+}
