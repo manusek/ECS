@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
 
       - name: Assume Plan Role
         uses: aws-actions/configure-aws-credentials@v4
@@ -53,6 +53,9 @@ jobs:
     needs: init
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
 
       # login to AWS with limited role
       - name: Assume Plan Role
@@ -94,6 +97,9 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
 
       # assume APPLY role (full permissions)
       - name: Assume Apply Role
